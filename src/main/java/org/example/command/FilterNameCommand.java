@@ -21,25 +21,27 @@ public class FilterNameCommand extends Command {
                 provider, collection,parametersAdvices);
     }
 
-    @Override
-    public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
-        return null;
-    }
+
 
     @Override
-    public void execute(String[] args) throws InvalidArgsException {
-        validateArgs(args, 1);
-        String name = args[0];
-        List<StudyGroup> studyGroups = CollectionManager.getCollection()
-                .stream()//преобразование в поток эл-в
-                .filter(flat -> flat.getName().toLowerCase().contains(name.toLowerCase()))//фильтр к каждому эл-ту
-                .collect(Collectors.toList());
-        provider.getPrinter().print("Collection filtered by name:");
-        String line = "-".repeat(60);
-        provider.getPrinter().print(line);
-        for (StudyGroup studyGroup : studyGroups) {
-            provider.getPrinter().print(studyGroup.toString());
-            provider.getPrinter().print(line);
+    public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
+        try {
+            validateArgs(args, 1);
+            String name = args[0];
+            List<StudyGroup> studyGroups = collection.getCollection()
+                    .stream()
+                    .filter(flat -> flat.getName().toLowerCase().contains(name.toLowerCase()))
+                    .collect(Collectors.toList());
+            StringBuilder responseBuilder = new StringBuilder();
+            responseBuilder.append("Collection filtered by name:\n");
+            String line = "-".repeat(60) + "\n";
+            responseBuilder.append(line);
+            for (StudyGroup group : studyGroups) {
+                responseBuilder.append(group.toString()).append("\n").append(line);
+            }
+            return new Response(new String[] responseBuilder.toString());
+        } catch (InvalidArgsException e) {
+            return new Response("Ошибка: " + e.getMessage());
         }
     }
 }
