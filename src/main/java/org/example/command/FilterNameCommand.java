@@ -30,7 +30,7 @@ public class FilterNameCommand extends Command {
             String name = args[0];
             List<StudyGroup> studyGroups = collection.getCollection()
                     .stream()
-                    .filter(flat -> flat.getName().toLowerCase().contains(name.toLowerCase()))
+                    .filter(studyGroup1 -> studyGroup1.getName().toLowerCase().contains(name.toLowerCase()))
                     .collect(Collectors.toList());
             StringBuilder responseBuilder = new StringBuilder();
             responseBuilder.append("Collection filtered by name:\n");
@@ -39,9 +39,14 @@ public class FilterNameCommand extends Command {
             for (StudyGroup group : studyGroups) {
                 responseBuilder.append(group.toString()).append("\n").append(line);
             }
-            return new Response(new String[] responseBuilder.toString());
-        } catch (InvalidArgsException e) {
-            return new Response("Ошибка: " + e.getMessage());
+            String[] responseArray = {responseBuilder.toString()};
+            return new Response(responseArray);
         }
+        catch (InvalidArgsException e) {return new Response(new String[] {"error"});}
+    }
+
+    @Override
+    public void execute(String[] args) throws InvalidArgsException {
+
     }
 }
