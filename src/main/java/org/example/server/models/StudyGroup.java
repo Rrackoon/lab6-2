@@ -1,4 +1,4 @@
-package org.example.client.models;
+package org.example.server.models;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ public class StudyGroup implements Comparable<StudyGroup>{
     private FormOfEducation formOfEducation; //Поле не может быть null
     private Person groupAdmin; //Поле не может быть null
 
-    public StudyGroup(String name, Coordinates coordinates, Long studentsCount, int expelledStudents, long shouldBeExpelled, FormOfEducation formOfEducation,Person groupAdmin) {
+    public StudyGroup(String name, Coordinates coordinates, Long studentsCount, int expelledStudents, long shouldBeExpelled, FormOfEducation formOfEducation, Person groupAdmin) {
         this.id = ++ID;
         this.name = name;
         this.coordinates = coordinates;
