@@ -36,13 +36,21 @@ public class CommandManager {
         register("execute_script", new ExecuteScriptCommand(provider, collection, recDepth));
         register("help", new HelpCommand(provider, collection, commands));
     }
-    */
+
 
     public Command getCommand(String name) throws CommandIOException {
         if (commands.containsKey(name)) {
             return commands.get(name);
         }
         throw new CommandIOException("Error! Unknown command \"" + name + "\"");
+    }
+     */
+    public String getCommands() {
+        String cmd = "";
+        for (Map.Entry<String, Command> val : commands.entrySet()) {
+            cmd += val.getValue().getName() + " : " + val.getValue().getDescription() + "\n";
+        }
+        return cmd;
     }
 
     public void createCommand(String name, Command command) throws CommandIOException {

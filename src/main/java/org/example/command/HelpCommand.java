@@ -24,7 +24,7 @@ public class HelpCommand extends Command {
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
-        String[] response = {commandmanager.getCommand()};
+        String[] response = {commandmanager.getCommands()};
         return new Response(response);
     }
 

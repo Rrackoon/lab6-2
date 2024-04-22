@@ -32,8 +32,9 @@ public class ExecuteScriptCommand extends Command {
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
         LinkedList<CommandShallow> commandsList = ScriptReader.readCommands(args[1], commandmanager);
         Response response = new Response(new String[0]);
+        LinkedList<CommandShallow> commands = ScriptReader.readCommands(args[1], commandmanager);
         for (CommandShallow command : commandsList) {
-            response.addLines(command.getCommand().execute(command.getArguments(), ++stacksize, command.getStudyGroup(), commandmanager, collection).getMessage());
+            response.addLines(command.getCommand().execute(command.getArguments(), ++stacksize, null, commandmanager, collection).getMessage());
         }
         return response;
     }
