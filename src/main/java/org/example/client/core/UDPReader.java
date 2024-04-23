@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.logging.*;
 import org.example.command.*;
 import org.example.managers.*;
+
 public class UDPReader {
 
         private final DatagramSocket datagramSocket;
@@ -22,13 +23,20 @@ public class UDPReader {
         }
 
         public Response readResponse() throws IOException, ClassNotFoundException {
-            byte[] buffer = new byte[4096];
+            System.out.println("in readRespnse");
+            Response resp;
+            byte[] buffer = new byte[65507];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             datagramSocket.receive(packet);
-
+            System.out.println(new String(packet.getData()));
             byte[] data = packet.getData();
             ByteArrayInputStream bais = new ByteArrayInputStream(data);
             ObjectInputStream ois = new ObjectInputStream(bais);
-            return (Response) ois.readObject();
+
+            resp= (Response) ois.readObject();
+            for(int i=0; i < resp.getMessage().length;i++) {
+                System.out.println("response:" + resp.getMessage()[0]);
+            }
+            return resp;
         }
 }

@@ -6,7 +6,9 @@ import org.example.managers.CommandManager;
 import org.example.models.StudyGroup;
 import org.example.utils.IOProvider;
 
-public abstract class Command {
+import java.io.Serializable;
+
+public abstract class Command  implements Serializable {
     String name;
     String description;
     IOProvider provider;

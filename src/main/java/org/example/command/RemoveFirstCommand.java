@@ -26,4 +26,8 @@ public class RemoveFirstCommand extends Command {
         collection.remove(Integer.parseInt(args[1]));
         return new Response(new String[0]);
     }
+    @Override
+    public void execute(String[] args) throws InvalidArgsException {
+
+    }
 }

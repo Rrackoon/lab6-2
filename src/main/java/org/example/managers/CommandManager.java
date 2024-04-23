@@ -71,4 +71,12 @@ public class CommandManager {
         }
         return false;
     }
+
+    public Command getCommand(String name) throws CommandIOException{
+        if (commands.containsKey(name)) {
+            return commands.get(name);
+        }
+        throw new CommandIOException("Error! Unknown command \"" + name + "\"");
+    }
 }
+

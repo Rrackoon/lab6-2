@@ -1,4 +1,5 @@
 package org.example.client.core;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -35,13 +36,15 @@ public class Console implements Serializable {
         String host = "";
         int port = 0;
         Pattern pattern = Pattern.compile("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$");
+        /*
         while (!con) {
             con = true;
             this.print("Введите IP хоста: ");
             host = scanner.nextLine();
-            Matcher matcher = pattern.matcher(host);
-            con = matcher.find();
-            if (con) {
+        //    Matcher matcher = pattern.matcher(host);
+        //    con = matcher.find();
+        //    if (con) {
+            if(true){
                 try {
                     InetAddress.getByName(host);
                 }
@@ -62,8 +65,9 @@ public class Console implements Serializable {
                 System.out.println("Неизвестный порт! Попробуйте ввести снова");
                 con = false;
             }
-        }
-        connector.Connect(host,port);
+        }*/
+        //connector.Connect(host,port);
+        connector.Connect("localhost",9999);
         sender = new UDPSender(connector.getDatagramSocket(), connector.getServerAddress(),connector.getServerPort());
         reader =  new UDPReader(connector.getDatagramSocket());
         int[] parametersptr = {-1};
@@ -110,7 +114,8 @@ public class Console implements Serializable {
             }
 
             try {
-                CommandShallow shallow = new CommandShallow();
+                CommandShallow shallow = new CommandShallow(command,com);
+                System.out.println("command= "+command.getName());
                 if (command.getName().equals("add {element}") || command.getName().equals("update id {element}")) {
                     String[] advices = command.getParameterAdvices();
                     String[] parameters = new String[advices.length];
@@ -200,12 +205,21 @@ public class Console implements Serializable {
                     }
 
                 }
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(shallow);
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(baos);
+                    oos.writeObject((Object) shallow);
+                    System.out.println("before send 2 :" + shallow.getCommand().getName());
+                }
+                catch (Exception e){
+                    System.out.println("Error oos"+e.getMessage());
+                }
                 byte[] arr = baos.toByteArray();
+                System.out.println("before send "+arr.toString());
                 sender.send(arr);
                 Response response = null;
+                System.out.println("before readResp1");
                 try {
                     response = reader.readResponse();
                 }

@@ -1,13 +1,15 @@
 package org.example.command;
 
-import org.example.client.models.StudyGroup;
-import org.example.client.models.Color;
-import org.example.client.models.Location;
-import org.example.client.models.Person;
-import org.example.client.models.Coordinates;
-import org.example.client.models.FormOfEducation;
+import org.example.models.StudyGroup;
+import org.example.models.Color;
+import org.example.models.Location;
+import org.example.models.Person;
+import org.example.models.Coordinates;
+import org.example.models.FormOfEducation;
 
-public class CommandShallow {
+import java.io.Serializable;
+
+public class CommandShallow implements Serializable {
     private Command command;
     private String[] args;
     private StudyGroup studyGroup;
@@ -96,9 +98,13 @@ public class CommandShallow {
                 Long.parseLong(splitted[3]),
                 Integer.parseInt(splitted[5]),
                 Long.parseLong(splitted[6]),
-                col,
-                education
-        );
+                FormOfEducation.valueOf(splitted[7]),
+               new Person(splitted[8],splitted[9],
+                       Color.valueOf(splitted[10]),
+                        new Location(Integer.parseInt(splitted[11]),
+                                Integer.parseInt(splitted[12]),
+                                        splitted[13])));
+
     }
 
     public StudyGroup getStudyGroup() {

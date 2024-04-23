@@ -4,11 +4,14 @@ package org.example.client.core;
 import java.nio.*;
 import java.io.*;
 import java.net.*;
-
+import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 public class UDPConnector {
+
+    private static final Logger logger = Logger.getLogger(UDPSender.class.getName());
     private DatagramSocket datagramSocket;
-    private InetAddress serverAddress;
+    private SocketAddress serverAddress;
     private int serverPort;
     private String host;
 
@@ -21,12 +24,15 @@ public class UDPConnector {
 
     public  boolean Connect(String host,int serverPort) {
         try {
-            InetAddress serverAddress = InetAddress.getByName(host);
-            datagramSocket = new DatagramSocket(serverPort);
-            datagramSocket.connect(serverAddress, serverPort);
+            this.serverAddress = new InetSocketAddress(host, serverPort);
+            this.serverPort= serverPort;
+            this.datagramSocket = new DatagramSocket();
+            this.datagramSocket.connect(serverAddress);
+            logger.info("Connected to " + host + " on port " + serverPort);
+
         }
         catch (IOException e) {
-            System.out.println("Could not connect to " + serverAddress);
+            logger.severe("Could not connect to " + host + " on port " + serverPort);
             return false;
         }
         return true;
@@ -40,7 +46,7 @@ public class UDPConnector {
         return datagramSocket;
     }
 
-    public InetAddress getServerAddress() {
+    public SocketAddress getServerAddress() {
         return serverAddress;
     }
 

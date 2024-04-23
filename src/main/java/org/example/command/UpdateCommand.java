@@ -2,6 +2,7 @@ package org.example.command;
 
 import org.example.exception.InvalidArgsException;
 import org.example.managers.CollectionManager;
+import org.example.managers.CommandManager;
 import org.example.models.StudyGroup;
 import org.example.parser.SGParser;
 import org.example.utils.IOProvider;
@@ -14,7 +15,22 @@ public class UpdateCommand extends Command {
         super("update {id} {element}", "обновить значение элемента коллекции, id которого равен заданному",
                 provider, collection,parametersAdvices);
     }
+    @Override
+    public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
+      /*
+        Переписать
+        try {
+            Integer.parseInt(args[1]);
+        }
+        catch (Exception e) {
+            System.out.println("Error! Argument is not a number");
+            return new Response(new String[0]);
+        }
+        collection.removeById(Integer.parseInt(args[1]));
 
+       */
+        return new Response(new String[0]);
+    }
 
     @Override
     public void execute(String[] args) throws InvalidArgsException {
@@ -34,4 +50,6 @@ public class UpdateCommand extends Command {
         collection.update(studyGroupId, newStudyGroup);
         provider.getPrinter().printf("StudyGroup (ID %s) updated successfully.\n", studyGroupId);
     }
+
+
 }

@@ -5,15 +5,21 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.logging.Logger;
 
 public class UDPSender {
+    private static final Logger logger = Logger.getLogger(UDPSender.class.getName());
+
     private final DatagramChannel datagramChannel;
     private final Selector selector;
 
@@ -26,8 +32,13 @@ public class UDPSender {
         this.datagramChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
-    public void send(Response response, InetAddress address, int port, Logger logger) {
+    public void send(Response response, SocketAddress address, int port, Logger logger) {
         try {
+
+            //для отладки - убраать
+            for(int i=0; i < response.getMessage().length;i++) {
+                System.out.println("response:" + response.getMessage()[0]);
+            }
             ByteArrayOutputStream baos = new ByteArrayOutputStream();//для записи объекта в массив байтов
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(response);
@@ -43,13 +54,13 @@ public class UDPSender {
                 SelectionKey key = keyIterator.next();
                 if (key.isWritable()) {
                     DatagramChannel channel = (DatagramChannel) key.channel();
-                    channel.send(buffer, new InetSocketAddress(address, port));
+                    channel.send(buffer, new InetSocketAddress("localhost", port));
                     logger.fine("Sent " + arr.length + " bytes");
                 }
                 keyIterator.remove();
             }
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            logger.log(Level.SEVERE, "Error sending UDP data: " + e.getMessage(), e);
         }
     }
 }

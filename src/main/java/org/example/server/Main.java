@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import static org.apache.logging.log4j.core.appender.rewrite.MapRewritePolicy.Mode.Add;
 
 public class Main {
-    public static void main(String[] args) throws InputArgumentException, FileNotFoundException {
+    public static void main(String[] args) throws InputArgumentException, IOException {
         final  String FILENAME = System.getenv("FILENAME");
         CollectionManager collection = CollectionManager.fromFile(FILENAME);
         Logger logger = Logger.getLogger(Main.class.getName());
@@ -37,7 +37,9 @@ public class Main {
             System.out.println("\nВыключаем клиент");
         }));
         CommandManager commandmanager = new CommandManager();
+        System.out.println("after commandmanager");
         UDPConnector connector = new UDPConnector();
+        System.out.println("after UDPconnector");
         UDPReader reader = null;
         UDPSender sender = null;
         try {
@@ -61,10 +63,12 @@ public class Main {
             }
         }
         while(true){
-            SocketAddress client= reader.receive() ;
-            Response response = reader.getShallow().getCommand().execute(reader.getShallow().getArguments(), stacksize, reader.getShallow().getStudyGroup(), commandmanager, collection);
-            sender.send(reader);
-
+            if(connector.getSelector().select()>0) {
+                System.out.println("in read");
+                SocketAddress client = reader.receive();
+                Response response = reader.getShallow().getCommand().execute(reader.getShallow().getArguments(), 0, reader.getShallow().getStudyGroup(), commandmanager, collection);
+                sender.send(response, reader.getClient(),9999,logger);
+            }
         }
     }
 }

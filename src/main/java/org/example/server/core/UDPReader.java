@@ -17,11 +17,15 @@ import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 public class UDPReader {
+    private static final Logger logger = Logger.getLogger(UDPReader.class.getName());
+
     public static String in_string;
     ByteBuffer in_buffer;
     DatagramChannel channel;
@@ -65,7 +69,7 @@ public class UDPReader {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("exec err" + e.getMessage());
+                logger.log(Level.SEVERE, "Error executing UDP Reader: " + e.getMessage(), e);
 
             }
         }
@@ -77,14 +81,21 @@ public class UDPReader {
             //channel = (DatagramChannel) key.channel();
             in_buffer = ByteBuffer.allocate(65507);
             client = channel.receive(in_buffer);
-            ByteArrayInputStream bis = new ByteArrayInputStream(in_buffer.array());
+            //client = channel.getRemoteAddress();
+
+            //int numRead = -1;
+            //numRead = channel.read(in_buffer);
+            byte[] data = new byte[in_buffer.position()];
+            System.arraycopy(in_buffer.array(), 0, data, 0, in_buffer.position());
+            ByteArrayInputStream bis = new ByteArrayInputStream(data);
             ObjectInput in = new ObjectInputStream(bis);
             shallow = (CommandShallow)in.readObject();
+            logger.info("Command received: " + shallow.getCommand().getName());
             in_buffer.clear();
 
 
         } catch (Exception e){
-            System.out.println("resive error: "+e.getMessage());
+            logger.log(Level.SEVERE, "Error receiving UDP data: " + e.getMessage(), e);
         }
         return client;
 
