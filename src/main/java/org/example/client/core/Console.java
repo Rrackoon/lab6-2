@@ -36,36 +36,6 @@ public class Console implements Serializable {
         String host = "";
         int port = 0;
         Pattern pattern = Pattern.compile("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$");
-        /*
-        while (!con) {
-            con = true;
-            this.print("Введите IP хоста: ");
-            host = scanner.nextLine();
-        //    Matcher matcher = pattern.matcher(host);
-        //    con = matcher.find();
-        //    if (con) {
-            if(true){
-                try {
-                    InetAddress.getByName(host);
-                }
-                catch (UnknownHostException e) {
-                    System.out.println("Неизвестный IP! Попробуйте ввести снова");
-                    con = false;
-                }
-            }
-        }
-        con = false;
-        while (!con) {
-            con = true;
-            this.print("Введите порт хоста: ");
-            try {
-                port = Integer.parseInt(this.scanner.nextLine());
-            }
-            catch (IllegalArgumentException e) {
-                System.out.println("Неизвестный порт! Попробуйте ввести снова");
-                con = false;
-            }
-        }*/
         //connector.Connect(host,port);
         connector.Connect("localhost",9999);
         sender = new UDPSender(connector.getDatagramSocket(), connector.getServerAddress(),connector.getServerPort());
@@ -78,17 +48,14 @@ public class Console implements Serializable {
         }
     }
 
-    public void print(String line)
-    {
-        if (line.equals(null))
-        {
+    public void print(String line) {
+        if (line.equals(null)) {
             return;
         }
         System.out.print(line);
     }
 
-    public void println(String line)
-    {
+    public void println(String line) {
         if (line.equals(null)){
             System.out.println();
             return;
@@ -143,7 +110,7 @@ public class Console implements Serializable {
                                             int x = Integer.parseInt(parameters[i]);
                                             if (x <= -32) {
                                                 ok = false;
-                                                System.out.println("X должен быть больше -32");
+                                                System.out.println("X должен быть больше -522");
                                             }
                                         }
                                         break;
@@ -154,35 +121,29 @@ public class Console implements Serializable {
                                             int x = Integer.parseInt(parameters[i]);
                                             if (x <= 0) {
                                                 ok = false;
-                                                System.out.println("Возраст дракона должен быть больше 0");
+                                                System.out.println("Количество студентов должно быть больше 0");
                                             }
                                         }
                                         break;
                                         case 4:
-                                            if (!parameters[i].equals("") && !parameters[i].equals("GREEN") && !parameters[i].equals("YELLOW") && !parameters[i].equals("ORANGE") && !parameters[i].equals("WHITE")) {
+                                            if (!parameters[i].equals("") && !parameters[i].equals("GREEN") && !parameters[i].equals("YELLOW") && !parameters[i].equals("ORANGE") && !parameters[i].equals("WHITE")&& !parameters[i].equals("BLACK")&& !parameters[i].equals("BLUE")) {
                                                 ok = false;
                                                 System.out.println("Введено неверное значение");
                                             }
                                             break;
                                         case 5:
-                                            if (!parameters[i].equals("") && !parameters[i].equals("WATER") && !parameters[i].equals("UNDERGROUND") && !parameters[i].equals("AIR")) {
+                                            if (!parameters[i].equals("") && !parameters[i].equals("DISTANCE_EDUCATION") && !parameters[i].equals("FULL_TIME_EDUCATION") && !parameters[i].equals("EVENING_CLASSES")) {
                                                 ok = false;
                                                 System.out.println("Введено неверное значение");
                                             }
                                             break;
                                         case 6:
-                                            if (!parameters[i].equals("") && !parameters[i].equals("EVIL") && !parameters[i].equals("GOOD") && !parameters[i].equals("CHAOTIC") && !parameters[i].equals("CHAOTIC_EVIL") && !parameters[i].equals("FICKLE")) {
-                                                ok = false;
-                                                System.out.println("Введено неверное значение");
-                                            }
-                                            break;
-                                        case 7:
                                             Double.parseDouble(parameters[i]);
                                             break;
-                                        case 8: {
+                                        case 7: {
                                             float x = Float.parseFloat(parameters[i]);
                                             if (x <= 0) {
-                                                System.out.println("Количество сокровищ должно быть больше 0");
+                                                System.out.println("Значение должно быть больше 0");
                                                 ok = false;
                                             }
                                         }
@@ -246,44 +207,6 @@ public class Console implements Serializable {
         }
     }
 
-
-    private void sendCommand(CommandShallow shallow) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(shallow);
-        byte[] arr = baos.toByteArray();
-        sender.send(arr);
-        Response response = null;
-        try {
-            response = reader.readResponse();
-        }
-        catch (IOException e){
-            System.out.println("server is not avaliable: "+ e.getMessage());
-        }
-                catch (ClassNotFoundException e){
-            System.out.println("smth went wrong...: "+ e.getMessage());
-        }
-        for (String s: response.getMessage()) {
-            if (s.equals("exit")) {
-                this.stop();
-                break;
-            }
-            System.out.println(s);
-        }
-
-    }
-    /*
-    public String readln() {
-        if (commandsStack.size() == 0) {
-            stacksize = 0;
-            return scanner.nextLine();
-        }
-        else {
-            this.println(commandsStack.peek());
-            return commandsStack.removeFirst();
-        }
-    }
-*/
     public void stop() {
         active = false;
     }

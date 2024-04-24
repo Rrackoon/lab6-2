@@ -23,7 +23,7 @@ public class UDPReader {
         }
 
         public Response readResponse() throws IOException, ClassNotFoundException {
-            System.out.println("in readRespnse");
+            System.out.println("in readResponse");
             Response resp;
             byte[] buffer = new byte[65507];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);

@@ -13,7 +13,6 @@ public class CommandShallow implements Serializable {
     private Command command;
     private String[] args;
     private StudyGroup studyGroup;
-   // private CommandShallow[] commands;
 
     public CommandShallow() {
         this.command = null;
@@ -25,7 +24,6 @@ public class CommandShallow implements Serializable {
         this.command = command;
         this.args = args;
         this.studyGroup = null;
-        //this.command.check(args.length);
     }
 
 
@@ -37,13 +35,6 @@ public class CommandShallow implements Serializable {
         return args;
     }
 
-   /* public void setCommands(CommandShallow[] commands) {
-        this.commands = commands;
-    }
-
-    public CommandShallow[] getCommands() {
-        return commands;
-    }*/
 
     public void setStudyGroup(String[] splitted) {
         Color col = null;

@@ -12,7 +12,7 @@ public class UDPConnector {
     DatagramChannel channel;
     DatagramSocket socket;
     Selector selector;
-    SocketAddress client;
+    //SocketAddress client;
     public UDPConnector() {
 
         try {

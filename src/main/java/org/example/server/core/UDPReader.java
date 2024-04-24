@@ -51,7 +51,7 @@ public class UDPReader {
     public SocketAddress getClient()
     {return this.client;}
     public void execute() throws IOException {
-        // Selector selector = Selector.open();
+         Selector selector = Selector.open();
         if (true) {
 
             try {
@@ -76,7 +76,7 @@ public class UDPReader {
     }
 
     public SocketAddress  receive() {
-        // SocketAddress client;
+        //SocketAddress client;
         try {
             //channel = (DatagramChannel) key.channel();
             in_buffer = ByteBuffer.allocate(65507);
