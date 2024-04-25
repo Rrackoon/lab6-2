@@ -6,11 +6,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UDPSender {
-    private static final Logger logger = Logger.getLogger(UDPSender.class.getName());
+    private static final Logger logger = LogManager.getLogger(UDPSender.class);
     private final DatagramSocket datagramSocket;
     private final SocketAddress hostAddress;
     private int port;
@@ -27,7 +27,7 @@ public class UDPSender {
            datagramSocket.send(datagramPacket);
        }
        catch (Exception e){
-           logger.log(Level.SEVERE, "Error sending data: " + e.getMessage(), e);
+           logger.error("Error sending data: " + e.getMessage(), e);
        }
     }
 }

@@ -1,8 +1,9 @@
 package org.example.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Person implements Comparable<Person> {
+public class Person implements Serializable, Comparable<Person> {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private String passportID; //Значение этого поля должно быть уникальным, Поле не может быть null
     private Color hairColor; //Поле может быть null

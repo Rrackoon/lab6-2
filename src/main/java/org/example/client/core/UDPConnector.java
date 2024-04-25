@@ -4,12 +4,12 @@ package org.example.client.core;
 import java.nio.*;
 import java.io.*;
 import java.net.*;
-import java.util.logging.Logger;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UDPConnector {
 
-    private static final Logger logger = Logger.getLogger(UDPSender.class.getName());
+    private static final Logger logger = LogManager.getLogger(UDPConnector.class);
     private DatagramSocket datagramSocket;
     private SocketAddress serverAddress;
     private int serverPort;
@@ -32,7 +32,7 @@ public class UDPConnector {
 
         }
         catch (IOException e) {
-            logger.severe("Could not connect to " + host + " on port " + serverPort);
+            logger.error("Could not connect to " + host + " on port " + serverPort);
             return false;
         }
         return true;

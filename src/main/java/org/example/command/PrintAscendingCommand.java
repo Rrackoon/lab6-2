@@ -11,9 +11,6 @@ public class PrintAscendingCommand extends Command {
     public PrintAscendingCommand() {
         super("print_ascending", "вывести все элементы коллекции по возрастанию");
     }
-    public PrintAscendingCommand(IOProvider provider, CollectionManager collection, String[] parametersAdvices) {
-        super("print_ascending", "вывести все элементы коллекции по возрастанию", provider, collection, parametersAdvices);
-    }
 
 
     @Override

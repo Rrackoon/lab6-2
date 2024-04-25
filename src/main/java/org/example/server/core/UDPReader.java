@@ -17,14 +17,14 @@ import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
 
 public class UDPReader {
-    private static final Logger logger = Logger.getLogger(UDPReader.class.getName());
+    private static final Logger logger = LogManager.getLogger(UDPReader.class);
 
     public static String in_string;
     ByteBuffer in_buffer;
@@ -52,6 +52,7 @@ public class UDPReader {
     {return this.client;}
     public void execute() throws IOException {
          Selector selector = Selector.open();
+        channel.register(selector, SelectionKey.OP_READ);
         if (true) {
 
             try {
@@ -69,7 +70,7 @@ public class UDPReader {
                     }
                 }
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Error executing UDP Reader: " + e.getMessage(), e);
+                logger.error("Error executing UDP Reader: {}", e.getMessage(), e);
 
             }
         }
@@ -90,12 +91,12 @@ public class UDPReader {
             ByteArrayInputStream bis = new ByteArrayInputStream(data);
             ObjectInput in = new ObjectInputStream(bis);
             shallow = (CommandShallow)in.readObject();
-            logger.info("Command received: " + shallow.getCommand().getName());
+            logger.info("Command received: {} {}", shallow.getCommand().getName());
             in_buffer.clear();
 
 
         } catch (Exception e){
-            logger.log(Level.SEVERE, "Error receiving UDP data: " + e.getMessage(), e);
+            logger.error("Error receiving UDP data: {}", e.getMessage(), e);
         }
         return client;
 

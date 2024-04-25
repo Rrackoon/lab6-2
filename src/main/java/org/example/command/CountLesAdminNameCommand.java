@@ -10,11 +10,7 @@ public class CountLesAdminNameCommand extends Command {
         super("count_less_than_group_admin {name}",
                 "вывести количество элементов, значение поля groupAdmin которых меньше заданного");
     }
-    public CountLesAdminNameCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("count_less_than_group_admin {name}",
-                "вывести количество элементов, значение поля groupAdmin которых меньше заданного",
-                provider, collection,parametersAdvices);
-    }
+
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {

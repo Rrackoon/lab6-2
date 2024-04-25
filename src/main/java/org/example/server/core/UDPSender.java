@@ -14,30 +14,29 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UDPSender {
-    private static final Logger logger = Logger.getLogger(UDPSender.class.getName());
-
+    private static final Logger logger = LogManager.getLogger(UDPSender.class);
     private final DatagramChannel datagramChannel;
     private final Selector selector;
 
-    public UDPSender(DatagramChannel datagramChannel) throws IOException {
+    public UDPSender(DatagramChannel datagramChannel,Selector selector) throws IOException {
         this.datagramChannel = datagramChannel;
         this.datagramChannel.configureBlocking(false);
 
         // Открываем селектор и регистрируем канал на запись
-        this.selector = Selector.open();
+        this.selector = selector;
         this.datagramChannel.register(selector, SelectionKey.OP_WRITE);
     }
 
-    public void send(Response response, SocketAddress address, int port, Logger logger) {
+    public void send(Response response, SocketAddress address, DatagramChannel channel, Logger logger) {
         try {
 
-            //для отладки - убраать
+
             for(int i=0; i < response.getMessage().length;i++) {
-                System.out.println("response:" + response.getMessage()[0]);
+                logger.debug("response: {}", response.getMessage()[i]);
             }
             ByteArrayOutputStream baos = new ByteArrayOutputStream();//для записи объекта в массив байтов
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -47,20 +46,21 @@ public class UDPSender {
 
             // Ожидаем готовности канала на запись
             selector.select();//блокирует текущий поток до тех пор, пока не будет готов как минимум один канал из зарегистрированных в селекторе. В данном случае мы ждем готовности канала на запись.
-            Set<SelectionKey> selectedKeys = selector.selectedKeys();
+           Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
 
             while (keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();
                 if (key.isWritable()) {
-                    DatagramChannel channel = (DatagramChannel) key.channel();
-                    channel.send(buffer, new InetSocketAddress("localhost", port));
-                    logger.fine("Sent " + arr.length + " bytes");
-                }
-                keyIterator.remove();
+                    //DatagramChannel
+                            channel = (DatagramChannel) key.channel();
+                    channel.send(buffer, address);
+                    logger.debug("Sent " + arr.length + " bytes");
+               }
+               keyIterator.remove();
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error sending UDP data: " + e.getMessage(), e);
+            logger.error("Error sending UDP data: " + e.getMessage(), e);
         }
     }
 }

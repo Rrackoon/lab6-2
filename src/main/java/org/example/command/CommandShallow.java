@@ -37,7 +37,7 @@ public class CommandShallow implements Serializable {
 
 
     public void setStudyGroup(String[] splitted) {
-        Color col = null;
+ /*       Color col = null;
         switch(splitted[4]) {
             case "RED":
                 col = Color.RED;
@@ -82,19 +82,22 @@ public class CommandShallow implements Serializable {
         if (!groupAdmin.validate()) {
             throw new IllegalArgumentException("Error! Invalid group admin");
         }
-
+*/
         this.studyGroup = new StudyGroup(
-                splitted[0],
-                new Coordinates(Integer.parseInt(splitted[1]), Long.parseLong(splitted[2])),
-                Long.parseLong(splitted[3]),
-                Integer.parseInt(splitted[5]),
-                Long.parseLong(splitted[6]),
-                FormOfEducation.valueOf(splitted[7]),
-               new Person(splitted[8],splitted[9],
-                       Color.valueOf(splitted[10]),
-                        new Location(Integer.parseInt(splitted[11]),
-                                Integer.parseInt(splitted[12]),
-                                        splitted[13])));
+                splitted[0],  //имя группы
+                new Coordinates(
+                        Integer.parseInt(splitted[1]),//"Координата Х ",
+                        Long.parseLong(splitted[2])),//"Координата y ",
+                Long.parseLong(splitted[3]), // Количество студентов
+                Integer.parseInt(splitted[4]),//Кол-во исключенных студентов
+                Long.parseLong(splitted[5]),//Кол-во тех, кто должен быть исключен
+                FormOfEducation.valueOf(splitted[6]),//Форма обучения
+               new Person(splitted[7],//Имя админа группы
+                       splitted[8],//id паспорта
+                       Color.valueOf(splitted[9]),//Цвет волос
+                        new Location(Integer.parseInt(splitted[10]), //"Координата Х ",
+                                Integer.parseInt(splitted[11]), //"Координата  "
+                                        splitted[12])));//Имя локаци
 
     }
 

@@ -1,24 +1,24 @@
 [
   {
-    "id": 3,
-    "name": "aa",
+    "id": 2,
+    "name": "GR8",
     "coordinates": {
-      "x": 1,
-      "y": 1
+      "x": 8,
+      "y": 8
     },
-    "creationDate": "5::Mar::2024 20::31::34",
-    "studentsCount": 2,
+    "creationDate": "5::Mar::2024 19::59::30",
+    "studentsCount": 90,
     "expelledStudents": 4,
-    "shouldBeExpelled": 4,
-    "formOfEducation": "FULL_TIME_EDUCATION",
+    "shouldBeExpelled": 3,
+    "formOfEducation": "EVENING_CLASSES",
     "groupAdmin": {
-      "name": "ADMIN0",
-      "passportID": "000000",
-      "hairColor": "RED",
+      "name": "ADMIN8",
+      "passportID": "88888",
+      "hairColor": "BROWN",
       "location": {
         "x": 1,
         "y": 1,
-        "name": "L0"
+        "name": "L8"
       }
     }
   },
@@ -46,25 +46,25 @@
     }
   },
   {
-    "id": 2,
-    "name": "GR8",
+    "id": 3,
+    "name": "aa",
     "coordinates": {
-      "x": 8,
-      "y": 8
+      "x": 1,
+      "y": 1
     },
-    "creationDate": "5::Mar::2024 19::59::30",
-    "studentsCount": 90,
+    "creationDate": "5::Mar::2024 20::31::34",
+    "studentsCount": 2,
     "expelledStudents": 4,
-    "shouldBeExpelled": 3,
-    "formOfEducation": "EVENING_CLASSES",
+    "shouldBeExpelled": 4,
+    "formOfEducation": "FULL_TIME_EDUCATION",
     "groupAdmin": {
-      "name": "ADMIN8",
-      "passportID": "88888",
-      "hairColor": "BROWN",
+      "name": "ADMIN0",
+      "passportID": "000000",
+      "hairColor": "RED",
       "location": {
         "x": 1,
         "y": 1,
-        "name": "L8"
+        "name": "L0"
       }
     }
   }

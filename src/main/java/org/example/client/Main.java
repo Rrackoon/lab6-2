@@ -33,8 +33,8 @@ public class Main {
         UDPSender sender = new UDPSender(connector.getDatagramSocket(),connector.getServerAddress(),connector.getServerPort());
         UDPReader reader = new UDPReader(connector.getDatagramSocket());
         Console console = new Console(commandmanager, sender, reader);
-        String[] comnames = {"help", "info", "show", "add", "update", "remove_by_id", "clear", "save", "execute_script", "exit", "remove_at", "sort", "history", "sum_of_age", "print_field_ascending_character", "print_field_descending_character"};
-        Command[] coms = {new HelpCommand(), new InfoCommand(), new ShowCommand(), new AddCommand(), new RemoveByIdCommand(), new ClearCommand(), new SaveCommand(), new ExecuteScriptCommand(), new ExitCommand(), new RemoveFirstCommand(),new AddIfMinCommand(), new CountLesAdminNameCommand(), new UpdateCommand()};
+        String[] comnames = {"help", "info", "show", "add", "update", "remove_by_id", "clear", "save", "execute_script", "exit", "add_if_min", "count_less_than_group_admin", "update","print_asceding","remove_first", "filter_contains_name {name}"};
+        Command[] coms = {new HelpCommand(), new InfoCommand(), new ShowCommand(), new AddCommand(), new UpdateCommand(), new RemoveByIdCommand(), new ClearCommand(), new SaveCommand(), new ExecuteScriptCommand(), new ExitCommand(),new AddIfMinCommand(), new CountLesAdminNameCommand(), new UpdateCommand(),new PrintAscendingCommand(), new RemoveFirstCommand(), new FilterNameCommand()};
         for (int i = 0; i < coms.length; ++i)
         {
             try {
@@ -47,4 +47,3 @@ public class Main {
         console.start(connector);
     }
 }
-

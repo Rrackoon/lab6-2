@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="socket.host">${bundle:application:logstash.host}</Property>
-        <Property name="socket.port">${bundle:application:logstash.port}</Property>
-        <Property name="console.thresholdFilter">${bundle:application:logger.console.tresholdFilter}</Property>
-        <Property name="socket.thresholdFilter">${bundle:application:logger.socket.tresholdFilter}</Property>
+        <Property name="socket.host">localhost</Property>
+        <Property name="socket.port">9999</Property>
+        <Property name="console.thresholdFilter">INFO</Property>
+        <Property name="socket.thresholdFilter">DEBUG</Property>
     </Properties>
     <Appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">

@@ -10,9 +10,7 @@ public class ClearCommand extends Command {
     public ClearCommand() {
         super("clear", "очистить коллекцию");
     }
-    public ClearCommand(IOProvider provider, CollectionManager collection, String[] parametersAdvices) {
-        super("clear", "очистить коллекцию", provider, collection,parametersAdvices);
-    }
+
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {

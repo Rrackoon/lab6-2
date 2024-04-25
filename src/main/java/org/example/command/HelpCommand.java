@@ -17,10 +17,6 @@ public class HelpCommand extends Command {
         commands = new HashMap<String, Command>();
     }
 
-    public HelpCommand(IOProvider provider, CollectionManager collection, Map<String, Command> commands, String[] parametersAdvices) {
-        super("help", "вывести справку по доступным командам", provider, collection, parametersAdvices);
-        this.commands = commands;
-    }
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {

@@ -23,10 +23,7 @@ public class ExecuteScriptCommand extends Command {
     }
 
 
-    public ExecuteScriptCommand(IOProvider provider, CollectionManager collection, int recDepth,String[] parametersAdvices) {
-        super("execute_script {file_name}", "считать и исполнить скрипт из указанного файла", provider, collection,parametersAdvices);
-        this.recDepth = recDepth;
-    }
+
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {

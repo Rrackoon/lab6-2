@@ -12,11 +12,7 @@ public class AddIfMinCommand extends Command {
         super("add_if_max",
                 "добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции");
     }
-    public AddIfMinCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("add_if_max",
-                "добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции",
-                provider, collection,parametersAdvices);
-    }
+
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
         collection.push(studyGroup);

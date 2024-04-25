@@ -10,9 +10,7 @@ public class RemoveByIdCommand extends Command {
     public RemoveByIdCommand() {
         super("remove_by_id {id}", "удалить элемент из коллекции по его id");
     }
-    public RemoveByIdCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("remove_by_id {id}", "удалить элемент из коллекции по его id", provider, collection, parametersAdvices);
-    }
+
 
     @Override
     public void validateArgs(String[] args, int length) throws InvalidArgsException {

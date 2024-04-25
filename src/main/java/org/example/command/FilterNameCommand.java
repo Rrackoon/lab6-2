@@ -15,11 +15,7 @@ public class FilterNameCommand extends Command {
         super("filter_contains_name {name}",
                 "вывести элементы, значение поля name которых cодержит заданную подстроку");
     }
-    public FilterNameCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("filter_contains_name {name}",
-                "вывести элементы, значение поля name которых cодержит заданную подстроку",
-                provider, collection,parametersAdvices);
-    }
+
 
 
 

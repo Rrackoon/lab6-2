@@ -8,28 +8,28 @@ import org.example.parser.SGParser;
 import org.example.utils.IOProvider;
 
 public class UpdateCommand extends Command {
+
     public UpdateCommand() {
-        super("update {id} {element}", "обновить значение элемента коллекции, id которого равен заданному");
-    }
-    public UpdateCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("update {id} {element}", "обновить значение элемента коллекции, id которого равен заданному",
-                provider, collection,parametersAdvices);
+        super("update id {element}", "обновить значение элемента коллекции, id которого равен заданному", 2, new String[]{
+                "имя группы ",
+                "Координата Х ",
+                " Координата Y ",
+                " Количество студентов ",
+                "Кол-во исключенных студентов ",
+                " Кол-во тех, кто должен быть исключен ",
+                "Форма обучения ( доступные варианты - DISTANCE_EDUCATION, FULL_TIME_EDUCATION, EVENING_CLASSES) ",
+                "Имя админа группы ",
+                "id паспорта",
+                "Цвет волос ( из доступных - RED,BLACK,BLUE, YELLOW, BROWN) ",
+                "Локация админа, координата Х ",
+                "Локация админа, координата Y",
+                "Имя локаци"});
     }
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
-      /*
-        Переписать
-        try {
-            Integer.parseInt(args[1]);
-        }
-        catch (Exception e) {
-            System.out.println("Error! Argument is not a number");
-            return new Response(new String[0]);
-        }
-        collection.removeById(Integer.parseInt(args[1]));
-
-       */
-        return new Response(new String[0]);
+        long id=Long.parseLong(args[0]);
+        collection.update(id,studyGroup);
+        return new Response(new String[]{"Updated studyGroup with id="+id});
     }
 
     @Override

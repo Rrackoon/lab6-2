@@ -4,11 +4,11 @@ import java.net.*;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.util.logging.*;
-import java.util.logging.Logger;
-public class UDPConnector {
-    private static final Logger logger = Logger.getLogger(UDPConnector.class.getName());
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+public class UDPConnector {
+    private static final Logger logger = LogManager.getLogger(UDPConnector.class);
     DatagramChannel channel;
     DatagramSocket socket;
     Selector selector;
@@ -25,7 +25,7 @@ public class UDPConnector {
             channel.register(selector, SelectionKey.OP_READ);
             logger.info("UDP Connector initialized");
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error initializing UDP Connector: " + e.getMessage(), e);
+            logger.error("Error initializing UDP Connector: {}", e.getMessage(), e);
         }
     }
 

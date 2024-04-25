@@ -12,8 +12,18 @@ public abstract class Command  implements Serializable {
     String name;
     String description;
     IOProvider provider;
+    int argsnumber;
+    public int calls;
     CollectionManager collection;
     String[] parametersAdvices;
+    public Command(String name, String description, int argsnumber, String[] parametersAdvices) {
+        this.name = name;
+        this.description = description;
+        this.argsnumber = argsnumber;
+        this.parametersAdvices = parametersAdvices;
+        this.calls = 1;
+    }
+
 
     public Command(String name, String description, IOProvider provider, CollectionManager collection,  String[] parametersAdvices) {
         this.name = name;

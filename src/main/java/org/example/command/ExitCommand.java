@@ -11,9 +11,7 @@ public class ExitCommand extends Command {
     public ExitCommand() {
         super("exit", "завершить программу (без сохранения в файл)");
     }
-    public ExitCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("exit", "завершить программу (без сохранения в файл)", provider, collection,parametersAdvices);
-    }
+
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {

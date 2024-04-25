@@ -1,40 +1,31 @@
 package org.example.server;
 
-import com.google.gson.JsonParseException;
-import org.example.CLIPrinter;
 import org.example.command.*;
 import org.example.exception.CommandIOException;
 import org.example.exception.InputArgumentException;
-import org.example.interfaces.Printer;
 import org.example.managers.CollectionManager;
 import org.example.managers.CommandManager;
-import org.example.parser.CommandParser;
-import org.example.utils.IOProvider;
 import org.example.server.core.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Scanner;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import static org.apache.logging.log4j.core.appender.rewrite.MapRewritePolicy.Mode.Add;
+import java.io.IOException;
+import java.util.Scanner;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 public class Main {
     public static void main(String[] args) throws InputArgumentException, IOException {
         final  String FILENAME = System.getenv("FILENAME");
         CollectionManager collection = CollectionManager.fromFile(FILENAME);
-        Logger logger = Logger.getLogger(Main.class.getName());
-        ConsoleHandler handler = new ConsoleHandler();
-        logger.setLevel(Level.ALL);handler.setLevel(Level.ALL);
-        logger.addHandler(handler);
+        Logger logger = LogManager.getLogger(Main.class);
         if (args.length != 0) {
             throw new InputArgumentException("Error! Got " + Integer.valueOf(args.length) + " arguments when 0 required");
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("\nВыключаем клиент");
+            collection.save();
+            logger.info("\nShutting down server");
         }));
         CommandManager commandmanager = new CommandManager();
         System.out.println("after commandmanager");
@@ -44,32 +35,66 @@ public class Main {
         UDPSender sender = null;
         try {
             reader = new UDPReader(connector.getChannel(), connector.getSelector());
-            sender = new UDPSender(connector.getChannel());
+            sender = new UDPSender(connector.getChannel(), connector.getSelector());
         }
         catch (Exception e) {
-            System.out.println("can't open UDP reader");
+            logger.error("Can't open UDP reader: {}", e.getMessage(), e);
         }
 
 
-        String[] comnames = {"help", "info", "show", "add", "update", "remove_by_id", "clear", "save", "execute_script", "exit", "remove_at", "sort", "history", "sum_of_age", "print_field_ascending_character", "print_field_descending_character"};
-        Command[] coms = {new HelpCommand(), new InfoCommand(), new ShowCommand(), new AddCommand(), new RemoveByIdCommand(), new ClearCommand(), new SaveCommand(), new ExecuteScriptCommand(), new ExitCommand(), new RemoveFirstCommand(),new AddIfMinCommand(), new CountLesAdminNameCommand(), new UpdateCommand()};
+        String[] comnames = {"help", "info", "show", "add", "update", "remove_by_id", "clear", "save", "execute_script", "exit", "remove_at", "sort", "history", "sum_of_age", "print_field_ascending_character", "print_field_descending_character", "filter_contains_name {name}"};
+        Command[] coms = {new HelpCommand(), new InfoCommand(), new ShowCommand(), new AddCommand(), new RemoveByIdCommand(), new ClearCommand(), new SaveCommand(), new ExecuteScriptCommand(), new ExitCommand(), new RemoveFirstCommand(),new AddIfMinCommand(), new CountLesAdminNameCommand(), new UpdateCommand(), new FilterNameCommand()};
         for (int i = 0; i < coms.length; ++i)
         {
             try {
                 commandmanager.createCommand(comnames[i], coms[i]);
             }
             catch (CommandIOException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
-        while(true){
-            if(connector.getSelector().select()>0) {
-                System.out.println("in read");
-                SocketAddress client = reader.receive();
-                Response response = reader.getShallow().getCommand().execute(reader.getShallow().getArguments(), 0, reader.getShallow().getStudyGroup(), commandmanager, collection);
-                sender.send(response, reader.getClient(),9999,logger);
+        UDPReader finalReader = reader;
+        UDPSender finalSender = sender;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    while(true){
+                        try {
+                            if(connector.getSelector().select()>0) {
+                                logger.debug("In read");
+                                finalReader.execute();
+                                //SocketAddress client = reader.receive();
+                                Response response = finalReader.getShallow().getCommand().execute(finalReader.getShallow().getArguments(), 0, finalReader.getShallow().getStudyGroup(), commandmanager, collection);
+                                finalSender.send(response, finalReader.getClient(),connector.getChannel(),logger);
+                                logger.debug("End of file");
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+
+                    }
+
+                }
+                catch (Exception e){}
+            }}).start();
+
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNextLine()){
+            String serv_com = sc.nextLine();
+            logger.info("Server command: {}", serv_com);
+            if (serv_com.compareTo("save")==0){
+                collection.save();
             }
+            if (serv_com.compareTo("exit")==0){
+
+                System.exit(0);
+            }
+
         }
+
     }
 }
 

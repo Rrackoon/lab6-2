@@ -1,10 +1,11 @@
 package org.example.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class StudyGroup implements Comparable<StudyGroup>{
+public class StudyGroup implements Serializable, Comparable<StudyGroup>{
     public static long ID = 0;//присваивание максимального ID
-    private final long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private  long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
     private final LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
@@ -16,16 +17,19 @@ public class StudyGroup implements Comparable<StudyGroup>{
     private FormOfEducation formOfEducation; //Поле не может быть null
     private Person groupAdmin; //Поле не может быть null
 
-    public StudyGroup( String name, Coordinates coordinates, Long studentsCount, int expelledStudents, long shouldBeExpelled, FormOfEducation formOfEducation, Person groupAdmin) {
+    public StudyGroup(String name, Coordinates coordinates, Long studentsCount, int expelledStudents, long shouldBeExpelled, FormOfEducation formOfEducation, Person groupAdmin) {
         this.id = ++ID;
         this.name = name;
         this.coordinates = coordinates;
-        this.creationDate=java.time.LocalDateTime.now();
+        this.creationDate= LocalDateTime.now();
         this.studentsCount = studentsCount;
         this.expelledStudents = expelledStudents;
         this.shouldBeExpelled = shouldBeExpelled;
         this.formOfEducation = formOfEducation;
         this.groupAdmin = groupAdmin;
+    }
+    public void setId(){
+        this.id=++ID;
     }
     public long getID(){return ID;}
     public long getId(){return id;}
@@ -44,8 +48,8 @@ public class StudyGroup implements Comparable<StudyGroup>{
     public long getShouldBeExpelled(){
         return shouldBeExpelled;
     }
-    public LocalDateTime getCreationDate() {
-        return creationDate;
+    public String getCreationDate() {
+        return creationDate.toString();
     }
     public FormOfEducation getFormOfEducation() {
         return formOfEducation;

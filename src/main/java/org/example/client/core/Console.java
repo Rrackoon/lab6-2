@@ -64,10 +64,15 @@ public class Console implements Serializable {
     }
 
     public void readCommand() {
+        System.out.print("Введите команду ( или help): ");
         String[] com;
         stacksize = 0;
         com = scanner.nextLine().split(" ");
         if (com.length > 0) {
+            if (com[0] != null && com[0].equals("")) {
+                System.out.println("команда не должна быть пустой");
+                return;
+            }
             Command command	= null;
             try {
                 command = commandmanager.getCommand(com[0]);
@@ -75,6 +80,7 @@ public class Console implements Serializable {
                     System.out.println("Клиент не может сохранять данные");
                     return;
                 }
+
             }
             catch (CommandIOException e) {
                 System.out.println(e.getMessage());
@@ -115,8 +121,11 @@ public class Console implements Serializable {
                                         }
                                         break;
                                         case 2:
-                                            Float.parseFloat(parameters[i]);
-                                            break;
+                                            int y = Integer.parseInt(parameters[i]);
+                                            if (y <= -32) {
+                                                ok = false;
+                                                System.out.println("Y должен быть больше -345");
+                                            }
                                         case 3: {
                                             int x = Integer.parseInt(parameters[i]);
                                             if (x <= 0) {
@@ -125,28 +134,73 @@ public class Console implements Serializable {
                                             }
                                         }
                                         break;
-                                        case 4:
-                                            if (!parameters[i].equals("") && !parameters[i].equals("GREEN") && !parameters[i].equals("YELLOW") && !parameters[i].equals("ORANGE") && !parameters[i].equals("WHITE")&& !parameters[i].equals("BLACK")&& !parameters[i].equals("BLUE")) {
+                                        case 4: {
+                                            int x = Integer.parseInt(parameters[i]);
+                                            if (x <= 0) {
                                                 ok = false;
-                                                System.out.println("Введено неверное значение");
+                                                System.out.println("Количество исключенных студентов должно быть больше 0");
                                             }
-                                            break;
-                                        case 5:
+                                        }
+                                        break;
+                                        case 5: {
+                                            int x = Integer.parseInt(parameters[i]);
+                                            if (x <= 0) {
+                                                ok = false;
+                                                System.out.println("Количество тех, кто должен быть исключен должно быть больше 0");
+                                            }
+
+                                        }
+                                        break;
+                                        case 6:
                                             if (!parameters[i].equals("") && !parameters[i].equals("DISTANCE_EDUCATION") && !parameters[i].equals("FULL_TIME_EDUCATION") && !parameters[i].equals("EVENING_CLASSES")) {
                                                 ok = false;
                                                 System.out.println("Введено неверное значение");
                                             }
                                             break;
-                                        case 6:
-                                            Double.parseDouble(parameters[i]);
-                                            break;
-                                        case 7: {
-                                            float x = Float.parseFloat(parameters[i]);
-                                            if (x <= 0) {
-                                                System.out.println("Значение должно быть больше 0");
+                                        case 7:
+                                            if(parameters[i].equals(null)){
                                                 ok = false;
+                                                System.out.println("Имя не может быть пустое");
+                                            }
+                                            break;
+                                        case 8:
+                                            int x = Integer.parseInt(parameters[i]);
+                                            if (x <= 0) {
+                                                ok = false;
+                                                System.out.println("id паспорта не может быть 0");
+
+                                            }
+                                            break;
+                                        case 9:
+                                            if (!parameters[i].equals("") && !parameters[i].equals("GREEN") && !parameters[i].equals("YELLOW") && !parameters[i].equals("ORANGE") && !parameters[i].equals("WHITE")&& !parameters[i].equals("BLACK")&& !parameters[i].equals("BLUE")) {
+                                                ok = false;
+                                                System.out.println("Введено неверное значение");
+                                            }
+                                            break;
+                                        case 10:{
+                                            int X = Integer.parseInt(parameters[i]);
+                                            if (X <= -32) {
+                                                ok = false;
+                                                System.out.println("X должен быть больше -52");
                                             }
                                         }
+                                        break;
+                                        case 11: {
+                                            int Y = Integer.parseInt(parameters[i]);
+                                            if (Y <= -32) {
+                                                ok = false;
+                                                System.out.println("X должен быть больше -32");
+                                            }
+                                        }
+                                        break;
+                                        case 12: {
+                                            if(parameters[i].equals("")) {
+
+                                                ok = false;
+                                                System.out.println("Имя не может ьыть пусто");
+                                            }
+                                        }
+                                        break;
                                     }
                                 }
                                 catch (Exception e) {
@@ -177,7 +231,7 @@ public class Console implements Serializable {
                     System.out.println("Error oos"+e.getMessage());
                 }
                 byte[] arr = baos.toByteArray();
-                System.out.println("before send "+arr.toString());
+                System.out.println("before send ");
                 sender.send(arr);
                 Response response = null;
                 System.out.println("before readResp1");

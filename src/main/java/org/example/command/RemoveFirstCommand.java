@@ -10,9 +10,7 @@ public class RemoveFirstCommand extends Command {
     public RemoveFirstCommand() {
         super("remove_first", "удалить первый элемент из коллекции");
     }
-    public RemoveFirstCommand(IOProvider provider, CollectionManager collection,String[] parametersAdvices) {
-        super("remove_first", "удалить первый элемент из коллекции", provider, collection,parametersAdvices);
-    }
+
 
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
