@@ -20,16 +20,18 @@ public class UpdateCommand extends Command {
                 "Форма обучения ( доступные варианты - DISTANCE_EDUCATION, FULL_TIME_EDUCATION, EVENING_CLASSES) ",
                 "Имя админа группы ",
                 "id паспорта",
-                "Цвет волос ( из доступных - RED,BLACK,BLUE, YELLOW, BROWN) ",
+                "Цвет волос ( из доступных - BLACK,BLUE, YELLOW, BROWN) ",
                 "Локация админа, координата Х ",
                 "Локация админа, координата Y",
                 "Имя локаци"});
     }
     @Override
     public Response execute(String[] args, Integer stacksize, StudyGroup studyGroup, CommandManager commandmanager, CollectionManager collection) {
-        long id=Long.parseLong(args[0]);
+
+        long id=Long.parseLong(args[1]);
+        studyGroup.setId();
         collection.update(id,studyGroup);
-        return new Response(new String[]{"Updated studyGroup with id="+id});
+        return new Response(new String[]{"Updated studyGroup with id="+Long.parseLong(args[1])});
     }
 
     @Override

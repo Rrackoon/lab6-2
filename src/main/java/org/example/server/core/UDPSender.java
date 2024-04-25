@@ -46,18 +46,18 @@ public class UDPSender {
 
             // Ожидаем готовности канала на запись
             selector.select();//блокирует текущий поток до тех пор, пока не будет готов как минимум один канал из зарегистрированных в селекторе. В данном случае мы ждем готовности канала на запись.
-           Set<SelectionKey> selectedKeys = selector.selectedKeys();
+            Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
 
             while (keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();
                 if (key.isWritable()) {
                     //DatagramChannel
-                            channel = (DatagramChannel) key.channel();
+                    channel = (DatagramChannel) key.channel();
                     channel.send(buffer, address);
                     logger.debug("Sent " + arr.length + " bytes");
-               }
-               keyIterator.remove();
+                }
+                keyIterator.remove();
             }
         } catch (IOException e) {
             logger.error("Error sending UDP data: " + e.getMessage(), e);

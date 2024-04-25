@@ -34,9 +34,6 @@ public class UDPReader {
             ObjectInputStream ois = new ObjectInputStream(bais);
 
             resp= (Response) ois.readObject();
-            for(int i=0; i < resp.getMessage().length;i++) {
-                System.out.println("response:" + resp.getMessage()[0]);
-            }
             return resp;
         }
 }

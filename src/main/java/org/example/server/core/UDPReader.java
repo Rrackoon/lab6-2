@@ -51,7 +51,7 @@ public class UDPReader {
     public SocketAddress getClient()
     {return this.client;}
     public void execute() throws IOException {
-         Selector selector = Selector.open();
+        Selector selector = Selector.open();
         channel.register(selector, SelectionKey.OP_READ);
         if (true) {
 
@@ -91,12 +91,14 @@ public class UDPReader {
             ByteArrayInputStream bis = new ByteArrayInputStream(data);
             ObjectInput in = new ObjectInputStream(bis);
             shallow = (CommandShallow)in.readObject();
-            logger.info("Command received: {} {}", shallow.getCommand().getName());
+            System.out.println("Command received:"+shallow.getCommand().getName());
+            //logger.info("Command received: {} {}", shallow.getCommand().getName());
             in_buffer.clear();
 
 
         } catch (Exception e){
-            logger.error("Error receiving UDP data: {}", e.getMessage(), e);
+            System.out.println("Error receiving UDP data: {}"+ e.getMessage());
+            //logger.error("Error receiving UDP data: {}", e.getMessage(), e);
         }
         return client;
 

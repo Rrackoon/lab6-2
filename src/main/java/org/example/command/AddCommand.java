@@ -22,7 +22,7 @@ public class AddCommand extends Command {
                 "Форма обучения ( доступные варианты - DISTANCE_EDUCATION, FULL_TIME_EDUCATION, EVENING_CLASSES) ",
                 "Имя админа группы ",
                 "id паспорта",
-                "Цвет волос ( из доступных - RED,BLACK,BLUE, YELLOW, BROWN) ",
+                "Цвет волос ( из доступных - BLACK,BLUE, YELLOW, BROWN) ",
                 "Локация админа, координата Х " ,
                 "Локация админа, координата Y" ,
                         "Имя локаци"});
